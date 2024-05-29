@@ -1,10 +1,13 @@
 import { useState, useDeferredValue } from "react";
 
 const useDeferredState = (initialValue: any) => {
-	const [value, setValue] = useState(initialValue);
-	const deferredValue = useDeferredValue(value);
+	const [originalValue, setValue] = useState(initialValue);
+	const value = useDeferredValue(originalValue);
 
-	return [deferredValue, setValue, value !== deferredValue];
+	return [
+		{ value, originalValue, isStale: originalValue !== value },
+		setValue,
+	];
 };
 
 export default useDeferredState;
